@@ -35,17 +35,17 @@ variable "vpc_subnets" {
   default = {
     az1 = {
       availability_zone   = "us-east-2a"
-      private_subnet_cidr = "10.100.0.0/18" # 16382 hosts
+      private_subnet_cidr = ""                # "10.100.0.0/18" # 16382 hosts
       public_subnet_cidr  = "10.100.192.0/20" # 4094 hosts
     },
     az2 = {
       availability_zone   = "us-east-2b"
-      private_subnet_cidr = "10.100.64.0/18" # 16382 hosts
+      private_subnet_cidr = ""                # "10.100.64.0/18"  # 16382 hosts
       public_subnet_cidr  = "10.100.208.0/20" # 4094 hosts
     },
     az3 = {
       availability_zone   = "us-east-2c"
-      private_subnet_cidr = "10.100.128.0/18" # 16382 hosts
+      private_subnet_cidr = ""                # "10.100.128.0/18" # 16382 hosts
       public_subnet_cidr  = "10.100.224.0/20" # 4094 hosts
     }
   }
@@ -87,16 +87,6 @@ variable "vpc_enable_nat_gateway" {
 variable "vpc_enable_vpn_gateway" {
   type    = bool
   default = false
-}
-
-variable "host_enable" {
-  type    = bool
-  default = true
-}
-
-variable "host_instance_type" {
-  type    = string
-  default = "t3.micro"
 }
 
 variable "media_request_database_type" {

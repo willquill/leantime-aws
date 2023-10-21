@@ -1,10 +1,13 @@
+# Every 4 hours, check to see if billing has exceeded the threshold
+# Send an email if you've exceeded the threshold
+
 resource "aws_cloudwatch_metric_alarm" "account_billing_alarm" {
   alarm_name          = "account-billing-alarm"
   comparison_operator = "GreaterThanOrEqualToThreshold"
   evaluation_periods  = "1"
   metric_name         = "EstimatedCharges"
   namespace           = "AWS/Billing"
-  period              = "14400" # 4 hours
+  period              = "14400" # 4 hours, in seconds
   statistic           = "Sum"
   threshold           = var.alert_dollar_threshold
   alarm_description   = "Billing alarm by account"

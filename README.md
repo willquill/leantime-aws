@@ -72,7 +72,11 @@ Now you can delete the local `terraform.tfstate` since it has been replaced by t
 
 ## Manual Deployment
 
-WIP
+## FAQ
+
+*Q: Why use a public subnet instead of a private subnet?*
+
+A: The only way for private subnet EC2 instance to access the internet is through NAT, and a NAT gateway costs money.
 
 ## Credit
 
