@@ -7,10 +7,10 @@
 
 terraform {
   backend "s3" {
-    bucket         = "leantime-aws-terraform-state-backend"
+    bucket         = "leantime-tf-state-us-east-2"
     key            = "terraform.tfstate"
     region         = "us-east-2"
-    dynamodb_table = "terraform_state"
+    dynamodb_table = "terraform-state-lock"
     encrypt        = true
   }
 }

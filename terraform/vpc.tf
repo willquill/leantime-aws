@@ -9,6 +9,6 @@ module "vpc" {
   private_subnets = [for az in var.vpc_subnets : az["private_subnet_cidr"] if az["private_subnet_cidr"] != ""]
   public_subnets  = [for az in var.vpc_subnets : az["public_subnet_cidr"] if az["public_subnet_cidr"] != ""]
 
-  enable_nat_gateway = var.vpc_enable_nat_gateway
-  enable_vpn_gateway = var.vpc_enable_vpn_gateway
+  enable_nat_gateway = var.vpc_enable_nat_gateway # default disabled
+  enable_vpn_gateway = var.vpc_enable_vpn_gateway # default disabled
 }

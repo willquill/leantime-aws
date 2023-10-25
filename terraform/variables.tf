@@ -51,6 +51,34 @@ variable "vpc_subnets" {
   }
 }
 
+# RDS variables
+
+variable "rds" {
+  description = "RDS module inputs"
+  type = object({
+    engine               = optional(string, "mariadb")
+    engine_version       = optional(string, "10.11.5")
+    major_engine_version = optional(string, "10.11")
+    instance_class       = optional(string, "db.t4g.micro")
+    username             = optional(string, "leantime")
+    port                 = optional(string, "3306")
+    maintenance_window   = optional(string, "Mon:00:00-Mon:03:00")
+    backup_window        = optional(string, "03:00-06:00")
+    family               = optional(string, "mariadb10.11")
+  })
+  default = {
+    engine               = "mariadb"
+    engine_version       = "10.11.5"
+    major_engine_version = "10.11"
+    instance_class       = "db.t4g.micro"
+    username             = "leantime"
+    port                 = "3306"
+    maintenance_window   = "Mon:00:00-Mon:03:00"
+    backup_window        = "03:00-06:00"
+    family               = "mariadb10.11"
+  }
+}
+
 # ECS variables
 variable "container_definitions" {
   description = "List of object maps for the services you want to deploy to the container"
@@ -65,7 +93,21 @@ variable "container_definitions" {
     memory = optional(number, 512)
     cpu    = optional(number, null)
   }))
-  default = []
+  default = [
+    {
+      name  = "leantime"
+      image = "leantime/leantime:2.4"
+      #cpu       = 2
+      memory    = 1024 # 1 GB RAM, which is what a t2.micro has
+      essential = true
+      portMappings = [
+        {
+          containerPort = 80
+          hostPort      = 80
+        }
+      ]
+    }
+  ]
 }
 
 # Cloudwatch variables
@@ -103,5 +145,5 @@ variable "media_request_database_size" {
 
 variable "cloudwatch_enable" {
   type    = bool
-  default = false
+  default = true
 }

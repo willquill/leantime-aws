@@ -7,6 +7,7 @@ This project will deploy [Leantime](https://leantime.io/) to AWS using Free Tier
 ## Pre-requisites
 
 - An active AWS account with programmatic access
+- SSM Parameter Store: rds password
 
 ## Beginner Terraform Information
 
