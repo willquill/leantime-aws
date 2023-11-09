@@ -14,7 +14,7 @@ provider "aws" {
 
 module "bootstrap" {
   source        = "trussworks/bootstrap/aws"
-  version       = "~> 5.1.0"
+  version       = "~> 5.2.0"
   region        = "us-east-2"
-  account_alias = "leantime"
+  account_alias = "willquill-leantime"
 }

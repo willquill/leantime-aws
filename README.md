@@ -27,51 +27,21 @@ A very common way to handle those two items is to do this:
 1. Store the `tfstate` file in an AWS S3 bucket.
 2. Use AWS DynamoDB to handle the `tfstate` file locking.
 
-This is why you'll often see a `backend.tf` file that looks like this:
-
-```terraform
-terraform {
-  backend "s3" {
-    bucket         = "leantime-aws-state-backend"
-    key            = "terraform.tfstate"
-    region         = "us-east-2"
-    dynamodb_table = "terraform_state"
-    encrypt        = true
-  }
-}
-```
-
-If you want to configure all of your AWS resources via Terraform, you may have already noticed a problem with everything I just said. Specifically, you may be wondering:
-
-**If your Terraform backend uses an S3 bucket and DynamoDB table, how do you use Terraform to create the S3 bucket and DynamoDB table in the first place?!**
-
-This is an excellent question! It's a bit of a chicken and egg problem, isn't it?
-
-Fortunately, it's a problem you only have to solve once when you are first starting out with your project. There are various methods to resolve it - but I prefer the following method.
-
-Do the following:
-
-1. Rename `backend.tf` to `backend.tf.inactive`
-2. Execute `terraform init` followed by `terraform apply` to create your resources.
-3. Rename `backend.tf.inactive` back to `backend.tf` and repeat step 2.
-4. You will see the following, where you should enter "yes" and hit return:
-
-```sh
-➜ terraform init
-
-Initializing the backend...
-Do you want to copy existing state to the new backend?
-  Pre-existing state was found while migrating the previous "local" backend to the
-  newly configured "s3" backend. No existing state was found in the newly
-  configured "s3" backend. Do you want to copy this state to the new "s3"
-  backend? Enter "yes" to copy and "no" to start with an empty state.
-
-  Enter a value:
-```
-
-Now you can delete the local `terraform.tfstate` since it has been replaced by the S3 backend.
+This project uses the [trussworks/bootstrap/aws](https://registry.terraform.io/modules/trussworks/bootstrap/aws/latest) module to create these dependencies.
 
 ## Manual Deployment
+
+### Deploy Dependencies
+
+1. `cd` into the `terraform/bootstrap` directory.
+2. Edit `bootstrap.tf` to replace the `account_alias` as this is globally unique. You will need a truly unique account alias.
+3. Execute `terraform init` followed by `terraform apply`.
+
+### Deploy Leantime
+
+1. Be in the `terraform` directory.
+2. In `backend.tf`, replace the names of the `bucket` to match what you created in `bootstrap`. Since my account alias is `willquill-leantime`, my bucket name is `willquill-leantime-tf-state-us-east-2`.
+3. Execute `terraform init` followed by `terraform apply`.
 
 ## FAQ
 
