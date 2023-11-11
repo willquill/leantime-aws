@@ -1,11 +1,11 @@
 # Role to be used by aws_ecs_task_definition
 resource "aws_iam_role" "ecs_task_execution_role" {
   name               = "ecs_task_execution_role"
-  assume_role_policy = data.aws_iam_policy_document.assume_role_policy.json
+  assume_role_policy = data.aws_iam_policy_document.ecs_task_assume_role_policy.json
 }
 
 # Policy to be used by aws_ecs_task_definition
-data "aws_iam_policy_document" "assume_role_policy" {
+data "aws_iam_policy_document" "ecs_task_assume_role_policy" {
   statement {
     actions = ["sts:AssumeRole"]
 

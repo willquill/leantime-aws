@@ -1,7 +1,7 @@
 # General variables
 variable "project_name" {
   type    = string
-  default = "leantime-aws"
+  default = "leantime"
 }
 
 variable "default_tags" {

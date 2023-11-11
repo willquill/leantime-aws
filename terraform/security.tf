@@ -51,7 +51,7 @@ module "sg_maria_db_rds" {
 
   egress_rules = ["all-all"]
 
-  tags = merge(var.default_tags, {
+  tags = {
     Usage = "Allow access to mariadb RDS"
-  })
+  }
 }
