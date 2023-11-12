@@ -1,5 +1,11 @@
 # !!! WORK IN PROGRESS !!!
 
+## DEVELOPMENT STATUS
+
+- Just added environment variables to the docker containers
+- Continue with remaining keys in the docker compose image definition
+- Pretty sure just volumes are left
+
 # leantime-aws
 
 This project will deploy [Leantime](https://leantime.io/) to AWS using Free Tier services. This means you can deploy and use this completely for free for 12 months on AWS.

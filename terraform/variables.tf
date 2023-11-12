@@ -90,27 +90,98 @@ variable "container_definitions" {
       containerport = number
       hostport      = number
     })))
-    memory = optional(number, 512)
-    cpu    = optional(number, null)
+    memory       = optional(number, 512)
+    cpu          = optional(number, null)
+    dockerLabels = optional(map(any))
+  }))
+  default = []
+}
+
+variable "volumes" {
+  description = "Docker volumes"
+  type        = list(any)
+  default     = []
+}
+
+variable "cloudflare_api_email" {
+  description = "Email used to access Cloudflare API"
+  type        = string
+  default     = ""
+}
+
+variable "cloudflare_api_key" {
+  description = "API key used to access Cloudflare"
+  type        = string
+  default     = ""
+}
+
+variable "public_hostname" {
+  description = "public hostname for the containers"
+  type        = string
+  default     = ""
+}
+
+# MySQL variables
+
+
+variable "env_database" {
+  description = "List of object maps for the database container environment variables"
+  type = list(object({
+    name  = optional(string, "")
+    value = optional(string, "")
   }))
   default = [
     {
-      name  = "leantime"
-      image = "leantime/leantime:2.4"
-      #cpu       = 2
-      memory    = 1024 # 1 GB RAM, which is what a t2.micro has
-      essential = true
-      portMappings = [
-        {
-          containerPort = 80
-          hostPort      = 80
-        }
-      ]
+      name  = "MYSQL_ROOT_PASSWORD"
+      value = "changeme123!"
+    },
+    {
+      name  = "MYSQL_DATABASE"
+      value = "leantime"
+    },
+    {
+      name  = "MYSQL_USER"
+      value = "lean"
+    },
+    {
+      name  = "MYSQL_PASSWORD"
+      value = "changeme123!"
+    }
+  ]
+}
+
+variable "env_leantime" {
+  description = "List of object maps for the leantime container environment variables"
+  type = list(object({
+    name  = optional(string, "")
+    value = optional(string, "")
+  }))
+  default = [
+    {
+      name  = "LEAN_DB_HOST"
+      value = "leantime_db"
+    },
+    {
+      name  = "LEAN_DB_DATABASE"
+      value = "leantime"
+    },
+    {
+      name  = "LEAN_DB_USER"
+      value = "leantime"
+    },
+    {
+      name  = "LEAN_DB_PASSWORD"
+      value = "changeme123!"
+    },
+    {
+      name  = "LEAN_DB_PORT"
+      value = 3306
     }
   ]
 }
 
 # Cloudwatch variables
+
 variable "alert_dollar_threshold" {
   type    = string
   default = "1"
