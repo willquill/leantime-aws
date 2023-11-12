@@ -1,0 +1,20 @@
+module "db" {
+  source                 = "terraform-aws-modules/rds/aws"
+  version                = ">= 6.1"
+  engine                 = var.rds.engine
+  major_engine_version   = var.rds.major_engine_version
+  instance_class         = var.rds.instance_class
+  identifier             = "${var.project_name}-rds"
+  db_name                = "${var.project_name}-rds-${var.rds.engine}"
+  username               = var.rds.username
+  password               = data.aws_ssm_parameter.rds_password.value
+  port                   = var.rds.port
+  vpc_security_group_ids = [module.sg_maria_db_rds.security_group_id]
+  allocated_storage      = 5
+  max_allocated_storage  = 20
+  maintenance_window     = var.rds.maintenance_window
+  backup_window          = var.rds.backup_window
+
+  # DB parameter group
+  family = var.rds.family
+}
